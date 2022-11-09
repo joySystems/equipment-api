@@ -19,9 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/equipment', function (Request $request) {
-    return "hello!";
-});
+Route::get('/equipment', [App\Http\Controllers\EquipmentController::class, 'index']);
 
 
 Route::get('/equipment/{id}', function (Request $request) {
@@ -39,3 +37,7 @@ Route::put('/equipment/{id}', function (Request $request) {
 Route::delete('/equipment/{id}', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/equipment-type', [App\Http\Controllers\EquipmentTypeController::class, 'index']);
+
