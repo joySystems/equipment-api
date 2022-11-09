@@ -17,3 +17,25 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/equipment', function (Request $request) {
+    return "hello!";
+});
+
+
+Route::get('/equipment/{id}', function (Request $request) {
+    return $request->user();
+});
+
+Route::post('/equipment', function (Request $request) {
+    return $request->user();
+});
+
+Route::put('/equipment/{id}', function (Request $request) {
+    return $request->user();
+});
+
+Route::delete('/equipment/{id}', function (Request $request) {
+    return $request->user();
+});
