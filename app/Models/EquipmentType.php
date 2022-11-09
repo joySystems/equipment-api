@@ -11,4 +11,6 @@ class EquipmentType extends Model
 
 
     protected $table = 'equipment_types';
+
+    
 }

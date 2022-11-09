@@ -22,21 +22,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/equipment', [App\Http\Controllers\EquipmentController::class, 'index']);
 
 
-Route::get('/equipment/{id}', function (Request $request) {
-    return $request->user();
-});
+Route::get('/equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'show']);
 
-Route::post('/equipment', function (Request $request) {
-    return $request->user();
-});
+Route::post('/equipment', [App\Http\Controllers\EquipmentController::class, 'store']);
 
-Route::put('/equipment/{id}', function (Request $request) {
-    return $request->user();
-});
+Route::put('/equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'update']);
 
-Route::delete('/equipment/{id}', function (Request $request) {
-    return $request->user();
-});
+Route::delete('/equipment/{id}', [App\Http\Controllers\EquipmentController::class, 'delete']);
 
 
 Route::get('/equipment-type', [App\Http\Controllers\EquipmentTypeController::class, 'index']);

@@ -14,4 +14,11 @@ class Equipment extends Model
 
     protected $fillable = ['equipment_type_id', 'serial_number', 'comments'];
 
+
+    protected $hidden = [
+        'created_at', 
+        'updated_at', 
+        
+    ];
+
 }
