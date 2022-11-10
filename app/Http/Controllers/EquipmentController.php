@@ -23,9 +23,9 @@ class EquipmentController extends Controller
 
     }
 
-    public function index () {
+    public function index (Request $request) {
 
-        return new EquipmentCollection(Equipment::paginate(1));
+        return new EquipmentCollection($this->equipmentService->allEquipment($request));
         
     }
 
@@ -33,7 +33,7 @@ class EquipmentController extends Controller
     public function show (Request $request, $id) {
 
         
-        return new EquipmentResource(Equipment::find($id));
+        return new EquipmentResource($this->equipmentService->showEquipment($request, $id));
     }
 
 
@@ -54,9 +54,8 @@ class EquipmentController extends Controller
 
     public function delete (Request $request, $id) {
 
-        $equipment = Equipment::find($id);
-        $equipment->delete();
-        return $equipment;
+        $deleteData = $this->equipmentService->deleteEquipment($request, $id);
+        return new EquipmentResource($deleteData);
     }
 
 

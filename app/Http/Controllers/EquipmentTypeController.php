@@ -4,14 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\EquipmentType;
+use App\Services\EquipmentTypeService;
 use App\Http\Resources\EquipmentTypeCollection;
 
 class EquipmentTypeController extends Controller
 {
-    //
-    public function index () {
 
-        return new EquipmentTypeCollection(EquipmentType::paginate(1));
+    private $equipmentTypeService = null;
+
+
+    public function __construct() {
+
+        $this->equipmentTypeService = new EquipmentTypeService();
+
+    }
+    //
+    public function index (Request $request) {
+
+        return new EquipmentTypeCollection($this->equipmentTypeService->allEquipmentType($request));
         
     }
 
