@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Equipment;
+use App\Services\EquipmentService;
 use App\Http\Resources\EquipmentResource;
 use App\Http\Resources\EquipmentCollection;
 use App\Http\Requests\EquipmentStoreRequest;
@@ -12,6 +13,15 @@ use App\Http\Requests\EquipmentUpdateRequest;
 class EquipmentController extends Controller
 {
     //
+
+    private $equipmentService = null;
+
+
+    public function __construct() {
+
+        $this->equipmentService = new EquipmentService();
+
+    }
 
     public function index () {
 
@@ -29,35 +39,17 @@ class EquipmentController extends Controller
 
     public function store (EquipmentStoreRequest $request) {
 
-        $validatedData = $request->validated();
+        $insertData = $this->equipmentService->storeEquipment($request);
 
-        $equipmentsRequestData = $validatedData['equipments'];
-
-        $dateTimeNow = now();
-        $equipmentsData = [];
-
-        foreach($equipmentsRequestData as $data) {
-            $data['created_at'] = $dateTimeNow;
-            $data['updated_at'] = $dateTimeNow;
-
-            $equipmentsData[] = $data;
-
-        }
-
-        $insertData = Equipment::insert($equipmentsData);
-        return response()->json($insertData, 201);
+        return new EquipmentCollection($insertData);
     }
 
 
     public function update (EquipmentUpdateRequest $request, $id) {
 
-        $validatedData = $request->validated();
-
-        $equipment = Equipment::find($id);
-
-        $updated = $equipment->update($validatedData);
+        $updateData = $this->equipmentService->updateEquipment($request, $id);
         
-        return response()->json($updated, 201);
+        return new EquipmentResource($updateData);
     }
 
     public function delete (Request $request, $id) {
