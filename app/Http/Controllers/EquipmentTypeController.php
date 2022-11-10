@@ -11,35 +11,10 @@ class EquipmentTypeController extends Controller
     //
     public function index () {
 
-        return new EquipmentTypeCollection(EquipmentType::all());
+        return new EquipmentTypeCollection(EquipmentType::paginate(1));
         
     }
 
-    public function show (Request $request, $id) {
-
-        $eq = EquipmentType::all();
-        return $eq;
-    }
-
-
-    public function store () {
-
-        $eq = EquipmentType::all();
-        return $eq;
-    }
-
-
-    public function update (Request $request, $id) {
-
-        $eq = EquipmentType::all();
-        return $eq;
-    }
-
-    public function delete (Request $request, $id) {
-
-        $eq = EquipmentType::all();
-        return $eq;
-    }
-
+    
 
 }

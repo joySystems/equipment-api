@@ -13,7 +13,7 @@ class EquipmentController extends Controller
 
     public function index () {
 
-        return new EquipmentCollection(Equipment::all());
+        return new EquipmentCollection(Equipment::paginate(1));
         
     }
 
@@ -40,8 +40,9 @@ class EquipmentController extends Controller
 
     public function delete (Request $request, $id) {
 
-        $eq = Equipment::all();
-        return $eq;
+        $equipment = Equipment::find($id);
+        $equipment->delete();
+        return $equipment;
     }
 
 
