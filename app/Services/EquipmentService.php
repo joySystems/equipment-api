@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Http\Request;
 use App\Models\Equipment;
-
+use App\Models\EquipmentType;
 use App\Http\Requests\EquipmentStoreRequest;
 use App\Http\Requests\EquipmentUpdateRequest;
 
@@ -65,7 +65,7 @@ public function showEquipment(Request $request, $id) {
 
         }else {
 
-            $equipmentsData[] = ['error'=> "Серийный номер не соответствует маске"];  
+            $equipmentsData[] = ['error'=> "Серийный номер не соответствует маске", "serial" => $data['serial_number']];  
         }
             
 
