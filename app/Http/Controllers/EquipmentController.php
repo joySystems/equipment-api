@@ -7,6 +7,7 @@ use App\Models\Equipment;
 use App\Http\Resources\EquipmentResource;
 use App\Http\Resources\EquipmentCollection;
 use App\Http\Requests\EquipmentStoreRequest;
+use App\Http\Requests\EquipmentUpdateRequest;
 
 class EquipmentController extends Controller
 {
@@ -44,14 +45,19 @@ class EquipmentController extends Controller
         }
 
         $insertData = Equipment::insert($equipmentsData);
-        return response() ->json($insertData, 201);
+        return response()->json($insertData, 201);
     }
 
 
-    public function update (Request $request, $id) {
+    public function update (EquipmentUpdateRequest $request, $id) {
 
-        $eq = Equipment::all();
-        return $eq;
+        $validatedData = $request->validated();
+
+        $equipment = Equipment::find($id);
+
+        $updated = $equipment->update($validatedData);
+        
+        return response()->json($updated, 201);
     }
 
     public function delete (Request $request, $id) {

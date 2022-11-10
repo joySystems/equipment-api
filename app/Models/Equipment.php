@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\EquipmentType;
 
 class Equipment extends Model
 {
@@ -31,5 +32,15 @@ class Equipment extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+
+    /**
+     * Get the type associated with the equipment.
+     */
+
+    public function equipmentType () {
+
+        return $this->hasOne(EquipmentType::class, "id", "equipment_type_id");
+    }
 
 }
