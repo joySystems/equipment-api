@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Equipment;
 use App\Http\Resources\EquipmentResource;
 use App\Http\Resources\EquipmentCollection;
+use App\Http\Requests\EquipmentStoreRequest;
 
 class EquipmentController extends Controller
 {
@@ -25,10 +26,25 @@ class EquipmentController extends Controller
     }
 
 
-    public function store () {
+    public function store (EquipmentStoreRequest $request) {
 
-        $eq = Equipment::all();
-        return $eq;
+        $validatedData = $request->validated();
+
+        $equipmentsRequestData = $validatedData['equipments'];
+
+        $dateTimeNow = now();
+        $equipmentsData = [];
+
+        foreach($equipmentsRequestData as $data) {
+            $data['created_at'] = $dateTimeNow;
+            $data['updated_at'] = $dateTimeNow;
+
+            $equipmentsData[] = $data;
+
+        }
+
+        $insertData = Equipment::insert($equipmentsData);
+        return response() ->json($insertData, 201);
     }
 
 
