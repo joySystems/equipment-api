@@ -8,8 +8,15 @@ use App\Models\EquipmentType;
 use App\Http\Requests\EquipmentStoreRequest;
 use App\Http\Requests\EquipmentUpdateRequest;
 
+
+
+
+
 class EquipmentService
 {
+ 
+    
+
     
 public function allEquipment(Request $request) {
 
@@ -54,18 +61,26 @@ public function showEquipment(Request $request, $id) {
 
             if (strlen($data['serial_number']) == strlen($mask)){
 
+                if(checkSerialToFitMask($mask, $data['serial_number'])){
+
+                    try {
+                        $equipmentsData[] = Equipment::create($data);
+                    }catch (\Illuminate\Database\QueryException $e) {
+        
+                        $equipmentsData[] = ['error'=>$e];
+                    }
 
 
-            try {
-                $equipmentsData[] = Equipment::create($data);
-            }catch (\Illuminate\Database\QueryException $e) {
+                }else{
 
-                $equipmentsData[] = ['error'=>$e];
-            }
+                    $equipmentsData[] = ['error'=> "Серийный номер не соответствует маске", "serial" => $data['serial_number'], "mask" => $mask];  
+                }
+
+            
 
         }else {
 
-            $equipmentsData[] = ['error'=> "Серийный номер не соответствует маске", "serial" => $data['serial_number']];  
+            $equipmentsData[] = ['error'=> "Серийный номер не соответствует маске", "serial" => $data['serial_number'], "mask" => $mask ];  
         }
             
 
@@ -84,6 +99,10 @@ public function showEquipment(Request $request, $id) {
 
         $equipment = Equipment::find($id);
 
+        $mask = $equipment->equipmentType->sn_mask;
+
+        if(checkSerialToFitMask($mask, $validatedData['serial_number'])){
+
         try{
 
             $updated = $equipment->update($validatedData);
@@ -94,6 +113,12 @@ public function showEquipment(Request $request, $id) {
 
             return ['error'=>$e];
             }
+
+
+        }else{
+
+            return ['error'=> "Серийный номер не соответствует маске", "serial" => $validatedData['serial_number'], "mask" => $mask ];  
+        }
 
        
         
